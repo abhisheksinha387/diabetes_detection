@@ -1,129 +1,150 @@
-# Youtube Tutorial : 
-# Working demo     : 
+# Demo : 
 ---
 
-```markdown
-# 🩺 Diabetes Detection System
+# 🩺 Diabetes Detection ML Project
 
-This is an end-to-end machine learning project that predicts whether a person has diabetes based on health metrics like glucose level, blood pressure, skin thickness, insulin level, and BMI. The project includes data ingestion, preprocessing, model training, and a web app for user input and prediction.
+This project is a complete end-to-end **Machine Learning application** for detecting diabetes based on clinical input parameters. It includes data preprocessing, model training, and a web interface for predictions using Flask.
+
+---
 
 ## 📁 Project Structure
 
 ```
-
-diabetes\_detection/
-├── app.py                           # Flask app entry point
-├── Dockerfile                       # Docker container definition
-├── requirements.txt                 # Python dependencies
+diabetes_detection/
+│
+├── notebooks/
+│   └── diabetes.csv                      # Raw dataset
+│
 ├── src/
 │   ├── components/
-│   │   ├── data\_ingestion.py        # Load and split dataset
-│   │   ├── data\_transformation.py   # Clean and scale features
-│   │   └── model\_trainer.py         # Train and save ML model
+│   │   ├── data_ingestion.py            # Load & split dataset
+│   │   ├── data_transformation.py       # Clean and scale data
+│   │   └── model_trainer.py             # Train logistic regression model
+│   │
 │   ├── pipeline/
-│   │   └── train\_pipeline.py        # Executes entire ML pipeline
-│   ├── exception.py                 # Custom exception handler
-│   ├── logger.py                    # Logging utility
-│   ├── utils.py                     # Utility functions
-│   └── setup.py                     # Setup script (if needed)
+│   │   └── train_pipeline.py            # Executes full training pipeline
+│   │
+│   ├── exception.py                     # Custom exception handling
+│   ├── logger.py                        # Logging module
+│   ├── utils.py                         # Utility functions
+│   └── setup.py                         # Setup script
+│
 ├── pipeline/
-│   └── predict\_pipeline.py          # Prediction logic
-├── notebooks/
-│   └── diabetes.csv                 # Dataset
+│   └── predict_pipeline.py              # Prediction logic
+│
 ├── templates/
-│   └── home.html                    # Web form for user input
+│   └── home.html                        # HTML form for web UI
+│
+├── app.py                               # Flask backend
+├── requirements.txt                     # Required dependencies
+├── Dockerfile                           # Docker config
+└── README.md                            # Project documentation
+```
 
-````
+---
 
-## 🔧 Features
+## 🧠 Workflow Overview
 
-- Clean and validate raw data
-- Standardize numeric features using `StandardScaler`
-- Train `LogisticRegression` for classification
-- Predict outcome using a Flask web interface
-- Logs all steps and errors
-- Container-ready via Docker
+1. **Data Ingestion**
+
+   * Reads the `diabetes.csv` dataset.
+   * Splits into training and testing sets.
+   * Saves them in `artifacts/`.
+
+2. **Data Transformation**
+
+   * Filters unrealistic values.
+   * Scales selected features (`Glucose`, `BloodPressure`, `SkinThickness`, `Insulin`, `BMI`).
+   * Saves transformed data and scaler.
+
+3. **Model Training**
+
+   * Trains a `LogisticRegression` model.
+   * Saves model to `artifacts/model.pkl`.
+
+4. **Prediction**
+
+   * Accepts user input via Flask UI.
+   * Loads saved model and scaler.
+   * Returns prediction (Diabetic / Not Diabetic).
+
+---
 
 ## 🚀 How to Run
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/diabetes_detection.git
+git clone https://github.com/your-username/diabetes_detection.git
 cd diabetes_detection
-````
+```
 
-### 2. Install dependencies
+### 2. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run the training pipeline
+### 3. Train the Model
 
 ```bash
 python src/pipeline/train_pipeline.py
 ```
 
-This will generate the trained model and scaler under the `artifacts/` directory.
+This will:
 
-### 4. Run the Flask app
+* Ingest and transform the data
+* Train the model
+* Save the model and scaler into `artifacts/`
+
+### 4. Start the Web App
 
 ```bash
 python app.py
 ```
 
-Then open your browser at `http://127.0.0.1:5000/`
+Visit: [http://localhost:5000](http://localhost:5000)
 
-### 5. (Optional) Run with Docker
+---
+
+## 🧪 Sample Input on UI
+
+| Feature        | Example Value |
+| -------------- | ------------- |
+| Glucose        | 148           |
+| Blood Pressure | 72            |
+| Skin Thickness | 35            |
+| Insulin        | 94            |
+| BMI            | 33.6          |
+
+---
+
+## 📦 Docker Support (Optional)
+
+You can containerize the app using:
 
 ```bash
-docker build -t diabetes-detector .
-docker run -p 5000:5000 diabetes-detector
+docker build -t diabetes-app .
+docker run -p 5000:5000 diabetes-app
 ```
 
-## 🧪 Input Fields for Prediction
+---
 
-* Glucose
-* Blood Pressure
-* Skin Thickness
-* Insulin
-* BMI
+## 📄 Requirements
 
-## 📊 Output
+Install all necessary packages using:
 
-* **0** = Non-Diabetic
-* **1** = Diabetic
+```
+pip install -r requirements.txt
+```
 
-## 📒 Logging
+---
 
-Logs are automatically saved under the `logs/` folder with timestamps.
+## 📑 License
 
-## ⚠️ Error Handling
+This project is open-source and available under the [MIT License](LICENSE).
 
-All components raise `CustomException` with detailed traceback and source file info.
-
-## 🧠 ML Details
-
-* Model: `LogisticRegression`
-* Data: `diabetes.csv` from Kaggle
-* Preprocessing: Feature scaling, zero-value filtering, outlier removal
-
-## 📌 Dependencies
-
-* Python ≥ 3.7
-* pandas
-* numpy
-* scikit-learn
-* Flask
-* gunicorn (for production)
-* pickle
-
-(See `requirements.txt` for full list)
-
-## 📄 License
-
-This project is open-source and free to use under the [MIT License](LICENSE).
+---
 
 ## 🙋‍♂️ Author
 
@@ -131,6 +152,4 @@ This project is open-source and free to use under the [MIT License](LICENSE).
 
 ---
 
-> "Predicting diabetes shouldn't be a mystery — empower early diagnosis through data." 💡
 
-```
